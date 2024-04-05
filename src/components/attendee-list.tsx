@@ -12,6 +12,12 @@ import { TableHeader } from "./table/table-header";
 import { TableCell } from "./table/table-cell";
 import { TableRow } from "./table/table-row";
 import { ChangeEvent, useState } from "react";
+import { attendees } from "../data/attendees";
+import dayjs from "dayjs";
+import 'dayjs/locale/pt-br'
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime)
 
 export function AttendeeeList() {
   const [valorDoInput, alteraOValorDoInput] = useState('')
@@ -51,10 +57,10 @@ export function AttendeeeList() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 8 }).map((_, i) => {
+          {attendees.map((attendee) => {
             return (
               <TableRow
-                key={i}
+                key={attendee.id}
               >
                 <TableCell>
                   <input
@@ -62,17 +68,17 @@ export function AttendeeeList() {
                     className="size-4 bg-black/20 border border-white/10 "
                   />
                 </TableCell>
-                <TableCell>1514684</TableCell>
+                <TableCell>{attendee.id}</TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-1">
                     <span className="font-semibold text-white">
-                      Gabriel Augusto
+                      {attendee.name}
                     </span>
-                    <span>gscontatoec@gmail.com </span>
+                    <span>{attendee.email}</span>
                   </div>
                 </TableCell>
-                <TableCell>7 dias atrás</TableCell>
-                <TableCell>3 dias atrás</TableCell>
+                <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
+                <TableCell>{dayjs().to(attendee.checkedInAt)}</TableCell>
                 <TableCell>
                   <IconButton transparent>
                     <MoreHorizontal className="size-4" />
